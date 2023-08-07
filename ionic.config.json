@@ -1,0 +1,7 @@
+{
+  "name": "trasa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
