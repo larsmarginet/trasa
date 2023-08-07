@@ -1,20 +1,6 @@
 <script setup lang="ts">
+import { BaseMap } from "@/components";
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { onMounted } from 'vue';
-
-onMounted(() => {
-  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_TOKEN;
- 
-  const map = new mapboxgl.Map({
-    container: 'map', // container ID
-    // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/streets-v12', // style URL
-    center: [-74.5, 40], // starting position [lng, lat]
-    zoom: 9 // starting zoom
-  });
-})
 </script>
 
 <template>
@@ -31,7 +17,8 @@ onMounted(() => {
         </ion-toolbar>
       </ion-header>
 
-      <div id="map" class="map" />
+      <BaseMap class="map" />
+
     </ion-content>
   </ion-page>
 </template>
@@ -39,7 +26,7 @@ onMounted(() => {
 <style scoped>
 .map {
   width: 100%;
-  height: 100%;
+  height: 50%;
 }
 </style>
 

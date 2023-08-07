@@ -1,0 +1,1 @@
+export { default as BaseMap } from "@/components/BaseMap.vue";
