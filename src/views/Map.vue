@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseMap } from "@/components";
+import { BaseMap, MapLayer, MapSource } from "@/components";
 import {
   IonPage,
   IonHeader,
@@ -74,7 +74,76 @@ onMounted(async () => {
         </ion-toolbar>
       </ion-header>
 
-      <BaseMap class="map" :data="gardens" />
+      <BaseMap class="map">
+        <MapSource
+          id="gardens"
+          :options="{
+            type: 'geojson',
+            data: gardens,
+            cluster: true,
+            clusterMaxZoom: 14,
+            clusterRadius: 50,
+          }"
+        />
+
+        <MapLayer
+          id="clusters"
+          :options="{
+            type: 'circle',
+            source: 'gardens',
+            filter: ['has', 'point_count'],
+            paint: {
+              'circle-color': [
+                'step',
+                ['get', 'point_count'],
+                '#51bbd6',
+                100,
+                '#f1f075',
+                750,
+                '#f28cb1',
+              ],
+              'circle-radius': [
+                'step',
+                ['get', 'point_count'],
+                20,
+                100,
+                30,
+                750,
+                40,
+              ],
+            },
+          }"
+        />
+
+        <MapLayer
+          id="cluster-count"
+          :options="{
+            type: 'symbol',
+            source: 'gardens',
+            filter: ['has', 'point_count'],
+            layout: {
+              'text-field': ['get', 'point_count_abbreviated'],
+              'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+              'text-size': 12,
+            },
+          }"
+        />
+
+        <MapLayer
+          id="cunclustered-point"
+          :options="{
+            type: 'circle',
+            source: 'gardens',
+            filter: ['!', ['has', 'point_count']],
+            paint: {
+              'circle-color': '#11b4da',
+              'circle-radius': 4,
+              'circle-stroke-width': 1,
+              'circle-stroke-color': '#fff',
+            },
+          }"
+        />
+      </BaseMap>
     </ion-content>
   </ion-page>
 </template>
